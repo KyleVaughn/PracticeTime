@@ -70,8 +70,7 @@ for p in people:
                     a[i-j-1] = 2.0
 
 # 4. Enumerate groups, order on goodness of fit based on 2 norm
-# There may be other better measures of goodness of fit, especially considering
-# that the 2 norm of the 2 norms of each group may skew the weighting per person.
+# There may be other better measures of goodness of fit
 # Haven't thought about it much. This was done in a day.
 module_log.info('Performing group calculations')
 bestTimes = [[1E6, 1, 1, 1]]*nTimesToStore
@@ -137,9 +136,8 @@ for grpDiff in range(GroupSizePM+1):
                     g2vec[i] = avalue
                 
                 # Compute the norm of the availability vector
-                g1norm = (1.0/np.sqrt(ng1))*np.linalg.norm(g1vec)
-                g2norm = (1.0/np.sqrt(ng2))*np.linalg.norm(g2vec)
-                totalNorm = np.linalg.norm(np.array([g1norm, g2norm]))
+                gvec = np.array([*g1vec, *g2vec])
+                totalNorm = np.linalg.norm(gvec)
     
                 # If the 2 norm of group norms is less than one of best values, insert into list
                 # This is ass code. Very inefficient, but im in a hurry
@@ -154,7 +152,7 @@ for grpDiff in range(GroupSizePM+1):
 
 module_log.info('Done')
 print(f'Computed {ncalc} valid group/time combinations')
-print('2-norm, Group 1 time, Group 1 people, Time is bad for, Group 2 time,\
-        Group 2 people, Time is bad for')
+print('2-norm, Group 1 time, Group 1 people, Time is bad for, Group 2 time,' +
+        ' Group 2 people, Time is bad for')
 for t in bestTimes:
     print(t)
